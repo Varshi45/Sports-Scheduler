@@ -119,6 +119,28 @@ app.get("/signout", (request, response, next) => {
   });
 });
 
+app.post("/create-admin", async (req, res) => {
+  try {
+    const { firstName, lastName, email, password } = req.body;
+
+    if (!firstName || !lastName || !email || !password) {
+      return res.status(400).json({ error: "All fields are required." });
+    }
+
+    const hashedPwd = await bcrypt.hash(password, saltRounds);
+    const newAdmin = await Admin.create({
+      firstName,
+      lastName,
+      email,
+      password: hashedPwd,
+    });
+    res.json(newAdmin)
+  } catch (error) {
+    console.error("Error creating Player:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 app.post("/create-player", async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
