@@ -1,8 +1,9 @@
 const express = require("express");
-// var csrf = require("csurf");
+var csrf = require("csurf");
 const bodyParser = require("body-parser");
-const { Admin, Sport, Player, Session,Join } = require("./models");
-const { Sequelize } = require('sequelize');
+var cookieParser = require("cookie-parser");
+const { Admin, Sport, Player, Session, Join } = require("./models");
+const { Sequelize } = require("sequelize");
 const bcrypt = require("bcrypt");
 const path = require("path");
 const passport = require("passport");
@@ -20,6 +21,8 @@ app.set("view engine", "ejs");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser("shh! some secret string"));
+app.use(csrf({ cookie: true }));
 
 app.use(
   session({
@@ -32,8 +35,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-// app.use(csrf({ cookie: true }));
 
 passport.use(
   new LocalStrategy(
@@ -99,15 +100,17 @@ passport.deserializeUser((serializedUser, done) => {
 });
 
 app.get("/", (request, response) => {
-  response.render("index");
+  response.render("index",{
+    csrfToken: request.csrfToken(),
+  });
 });
 
 app.get("/signup", (request, response) => {
-  response.render("signup");
+  response.render("signup", { csrfToken: request.csrfToken() });
 });
 
 app.get("/login", (request, response) => {
-  response.render("login");
+  response.render("login", { csrfToken: request.csrfToken() });
 });
 
 app.get("/signout", (request, response, next) => {
@@ -119,80 +122,6 @@ app.get("/signout", (request, response, next) => {
   });
 });
 
-app.post("/create-admin", async (req, res) => {
-  try {
-    const { firstName, lastName, email, password } = req.body;
-
-    if (!firstName || !lastName || !email || !password) {
-      return res.status(400).json({ error: "All fields are required." });
-    }
-
-    const hashedPwd = await bcrypt.hash(password, saltRounds);
-    const newAdmin = await Admin.create({
-      firstName,
-      lastName,
-      email,
-      password: hashedPwd,
-    });
-    res.json(newAdmin)
-  } catch (error) {
-    console.error("Error creating Player:", error.message);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-app.post("/create-player", async (req, res) => {
-  try {
-    const { firstName, lastName, email, password } = req.body;
-
-    if (!firstName || !lastName || !email || !password) {
-      return res.status(400).json({ error: "All fields are required." });
-    }
-
-    const hashedPwd = await bcrypt.hash(password, saltRounds);
-    const newPlayer = await Player.create({
-      firstName,
-      lastName,
-      email,
-      password: hashedPwd,
-    });
-    console.log(newPlayer);
-    req.login(newPlayer, (err) => {
-      if (err) {
-        console.log(err);
-      }
-      res.redirect("/player");
-    });
-  } catch (error) {
-    console.error("Error creating Player:", error.message);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-app.get(
-  "/player",
-  connectEnsureLogin.ensureLoggedIn(),
-  async (request, response) => {
-    if (request.accepts("html")) {
-      const player = request.user;
-      const sports = await Sport.getAll();
-      const sessions = [];
-      const joinedSessions = await Join.findAll({
-        where: { playerId:player.id }
-      });
-
-      for (const sport of sports) {
-        const sportSessions = await Session.findAll({
-          where: { sportId: sport.id },
-        });
-        sessions.push(...sportSessions);
-      }
-      response.render("playerDashboard", { player, sports, sessions, joinedSessions });
-    } else {
-      response.json("/payer route");
-    }
-  }
-);
 
 app.post(
   "/sectionPlayer",
@@ -216,15 +145,77 @@ app.post(
   }
 );
 
+app.post("/create-admin", async (req, res) => {
+  try {
+    const { firstName, lastName, email, password } = req.body;
+
+    if (!firstName || !lastName || !email || !password) {
+      return res.status(400).json({ error: "All fields are required." });
+    }
+
+    const hashedPwd = await bcrypt.hash(password, saltRounds);
+    const newAdmin = await Admin.create({
+      firstName,
+      lastName,
+      email,
+      password: hashedPwd,
+    });
+    res.json(newAdmin);
+  } catch (error) {
+    console.error("Error creating Player:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/create-player", async (req, res) => {
+  try {
+    const { firstName, lastName, email, password } = req.body;
+
+    if (!firstName || !lastName || !email || !password) {
+      return res.status(400).json({ error: "All fields are required." });
+    }
+
+    const hashedPwd = await bcrypt.hash(password, saltRounds);
+    await Player.create({
+      firstName,
+      lastName,
+      email,
+      password: hashedPwd,
+    });
+    res.redirect("/login");
+  } catch (error) {
+    console.error("Error creating Player:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 app.get(
-  "/admin",
+  "/player",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
     if (request.accepts("html")) {
-      const admin = request.user;
-      response.render("adminDashboard", { admin });
+      const player = request.user;
+      const sports = await Sport.getAll();
+      const sessions = [];
+      const joinedSessions = await Join.findAll({
+        where: { playerId: player.id },
+      });
+
+      for (const sport of sports) {
+        const sportSessions = await Session.findAll({
+          where: { sportId: sport.id },
+        });
+        sessions.push(...sportSessions);
+      }
+      response.render("playerDashboard", {
+        player,
+        sports,
+        sessions,
+        joinedSessions,
+        csrfToken: request.csrfToken(),
+      });
     } else {
-      response.json("/admin route");
+      response.json("/payer route");
     }
   }
 );
@@ -279,7 +270,7 @@ app.post("/create-sport", async (req, res) => {
         .status(400)
         .json({ error: "Admin ID and sport name are required." });
     }
-    console.log(adminId)
+    console.log(adminId);
 
     // Check if the adminId is valid
     const admin = await Admin.findByPk(adminId);
@@ -287,7 +278,7 @@ app.post("/create-sport", async (req, res) => {
       return res.status(404).json({ error: "Admin not found." });
     }
 
-    await Sport.create({ name,adminId });
+    await Sport.create({ name, adminId });
     res.redirect("/sports");
   } catch (error) {
     console.error("Error creating sport:", error);
@@ -323,7 +314,8 @@ app.get("/sports", connectEnsureLogin.ensureLoggedIn(), async (req, res) => {
       allSessions,
       allSports,
       joinedSessions,
-      allPlayers
+      allPlayers,
+      csrfToken: req.csrfToken(),
     });
   } catch (error) {
     console.error("Error retrieving sports:", error.message);
@@ -331,15 +323,6 @@ app.get("/sports", connectEnsureLogin.ensureLoggedIn(), async (req, res) => {
   }
 });
 
-app.get("/players", connectEnsureLogin.ensureLoggedIn(), async (req, res) => {
-  try {
-    const players = await Player.findAll();
-    res.json(players);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
 
 app.get("/players/:id", async (req, res) => {
   const playerId = req.params.id;
@@ -469,20 +452,32 @@ app.post("/join", async (req, res) => {
     const playerId = req.body.playerId;
     const sessionId = req.body.sessionId;
     const teamSize = req.body.teamSize;
+
+    const existingJoin = await Join.findOne({
+      where: {
+        playerId: playerId,
+        sessionId: sessionId
+      }
+    });
+
+    if (existingJoin) {
+      res.status(400).send("You have already joined this session.");
+      return;
+    }
+    
     if (teamSize > 0) {
       await Join.create({
         playerId: playerId,
         sessionId: sessionId,
-        teamSize: teamSize
+        teamSize: teamSize,
       });
 
       await Session.update(
         { teamSize: Sequelize.literal('"teamSize" - 1') },
         { where: { id: sessionId } }
       );
-      
 
-      res.redirect("/player")
+      res.redirect("/player");
     } else {
       res.status(400).send("Team size is already zero. Cannot join session.");
     }

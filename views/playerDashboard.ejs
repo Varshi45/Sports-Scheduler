@@ -13,10 +13,12 @@
     <link rel="stylesheet" href="./css/styles.css">
     <script>
         function deleteSession(id) {
+            const csrfToken = document.querySelector('input[name="_csrf"]').value;
             fetch(`/delete-session/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
+                    'CSRF-Token': csrfToken,
                 },
             })
             .then((res) => {
@@ -66,25 +68,26 @@
                         </select>
                     </div>
                     <input type="hidden" name="creator" value="<%= player.email %>">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
                     <div class="mb-4">
                         <label for="date" class="block text-gray-700 text-sm font-bold mb-2">Date:</label>
-                        <input type="date" id="date" name="date" required>
+                        <input type="date" id="date" name="date" class="w-full border border-gray-300 p-2 rounded" required>
                     </div>
 
                     <div class="mb-4">
                         <label for="time" class="block text-gray-700 text-sm font-bold mb-2">Time:</label>
-                        <input type="time" id="time" name="time" required>
+                        <input type="time" id="time" name="time" class="w-full border border-gray-300 p-2 rounded" required>
                     </div>
                     
                     <div class="mb-4">
                         <label for="venue" class="block text-gray-700 text-sm font-bold mb-2">Venue:</label>
-                        <input type="text" id="venue" name="venue" required>
+                        <input type="text" id="venue" name="venue" class="w-full border border-gray-300 p-2 rounded" required>
                     </div>
                     
                     <div class="mb-4">
                         <label for="teamSize" class="block text-gray-700 text-sm font-bold mb-2">Team-Size :</label>
-                        <input type="text" name="teamSize" required>
+                        <input type="text" name="teamSize" class="w-full border border-gray-300 p-2 rounded" required>
                     </div>
                     
                     <div class="mb-6">

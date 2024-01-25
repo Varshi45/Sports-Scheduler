@@ -10,7 +10,7 @@
 
                 <!-- Fetch and display sessions for this sport -->
                 <p><strong>Available Sessions : </strong></p>
-                <% const sportSessions = sessions.filter(session => session.sportId === sport.id); %>
+                <% const sportSessions = sessions.filter(session => session.sportId === sport.id && session.creator === admin.email); %>
                 <% if (sportSessions && sportSessions.length > 0) { %>
                     <ul class="list-disc pl-4">
                         <% sportSessions.forEach(session => { %>
@@ -20,7 +20,7 @@
                                 <strong>Date:</strong> <%= session.date %><br>
                                 <strong>Time:</strong> <%= session.time %><br>
                                 <strong>Venue:</strong> <%= session.venue %><br>
-                                <strong>Team-Size :</strong> <%= session.teamSize %><br>
+                                <strong>Vacancies :</strong> <%= session.teamSize %><br>
                                 <a href="#!" onclick="deleteSession('<%= session.id %>')" class="text-red-600 hover:underline">Delete Session</a>
                             </li>
                         <% }); %>
@@ -48,11 +48,7 @@
                 <% const playerDetails = allPlayers.find(player => player.id === session.playerId); %>
                 <p><strong>Player :</strong> <%= playerDetails ? playerDetails.firstName + " " + playerDetails.lastName : 'N/A' %></p>
 
-                <!--<% const sessionDetails = sessions.find(s => s.id === session.sessionId); %>
-                <p><strong>Date:</strong> <%= sessionDetails ? sessionDetails.date : 'N/A' %></p>
-                <p><strong>Time:</strong> <%= sessionDetails ? sessionDetails.time : 'N/A' %></p>
-                <p><strong>Team-Size:</strong> <%= sessionDetails ? sessionDetails.teamSize : 'N/A' %></p> -->
-            </li>
+                </li>
         <% }); %>
     </ul>
 <% } else { %>

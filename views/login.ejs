@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <meta name="csrf-token" content="<%= csrfToken %>">
     <title>Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
@@ -142,6 +140,7 @@
                 </div>
             </div>
             <form method="post" action="/sectionPlayer" class="login-form" id="player-form">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <div class="input-group">
                     <i class="fas fa-envelope icon"></i>
                     <input type="email" id="player-email" name="email" placeholder="Email">
@@ -153,6 +152,7 @@
                 <input type="submit" value="Submit">
             </form>
             <form method="post" action="/sectionAdmin" class="login-form" id="admin-form">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <div class="input-group">
                     <i class="fas fa-envelope icon"></i>
                     <input type="email" id="admin-email" name="email" placeholder="Email" required>

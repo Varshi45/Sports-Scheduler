@@ -11,7 +11,7 @@
                 <p><strong>Date:</strong> <%= session.date %></p>
                 <p><strong>Time:</strong> <%= session.time %></p>
                 <p><strong>Venue:</strong> <%= session.venue %></p>
-                <p><strong>Team-Size:</strong> <%= session.teamSize %></p>
+                <p><strong>Vacancies :</strong> <%= session.teamSize %></p>
                 <a href="#!" onclick="deleteSession('<%= session.id %>')" class="text-red-600 hover:underline">Delete Session</a>
             </li>
         <% }); %>
@@ -35,7 +35,7 @@
                 <% const sessionDetails = sessions.find(s => s.id === session.sessionId); %>
                 <p><strong>Date:</strong> <%= sessionDetails ? sessionDetails.date : 'N/A' %></p>
                 <p><strong>Time:</strong> <%= sessionDetails ? sessionDetails.time : 'N/A' %></p>
-                <p><strong>Team-Size:</strong> <%= sessionDetails ? sessionDetails.teamSize : 'N/A' %></p>
+                <p><strong>Vacancies :</strong> <%= sessionDetails ? sessionDetails.teamSize : 'N/A' %></p>
             </li>
         <% }); %>
     </ul>
@@ -67,9 +67,10 @@
                                 <strong>Date :</strong> <%= session.date %><br>
                                 <strong>Time :</strong> <%= session.time %><br>
                                 <strong>Venue :</strong> <%= session.venue %><br>
-                                <strong>Team-Size :</strong> <%= session.teamSize %><br>
+                                <strong>Vacancies :</strong> <%= session.teamSize %><br>
                             </li>
                             <form action="/join" method="post" style="display: inline;">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <input type="hidden" name="playerId" value="<%= player.id %>">
                                 <input type="hidden" name="sessionId" value="<%= session.id %>">
                                 <input type="hidden" name="teamSize" value="<%= session.teamSize %>">

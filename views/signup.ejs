@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>">
     <title>Sign-Up</title>
-    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body {
@@ -138,6 +136,7 @@
                 </div>
             </div>
             <form method="post" action="/create-player" class="login-form" id="player-form">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <div class="input-group">
                     <i class="fas fa-user icon"></i>
                     <input type="text" id="firstNamePlayer" name="firstName" placeholder="First Name" required>
