@@ -1,0 +1,30 @@
+<form method="post" action="/create-session">
+    <label for="sportId">Sport:</label>
+    <select id="sportId" name="sportId" required>
+    <% sports.forEach(sport => { %>
+        <option value="<%= sport.id %>"><%= sport.name %></option>
+    <% }); %>
+    </select>
+
+    <label for="creator">Creator:</label>
+    <select  id="creator" name="creator" required>
+    <% sports.forEach(sport => { %>
+        <option value="<%= sport.id %>"><%= sport.adminId %></option>
+    <% }); %>
+    </select>
+
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" required>
+
+    <label for="time">Time:</label>
+    <input type="time" id="time" name="time" required>
+
+    <label for="venue">Venue:</label>
+    <input type="text" id="venue" name="venue" required>
+
+    <label for="teamSize">Team-Size :</label>
+    <input type="text" name="teamSize" required>
+
+    <button type="submit">Create Session</button>
+</form>

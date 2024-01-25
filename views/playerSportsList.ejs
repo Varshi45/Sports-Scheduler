@@ -1,0 +1,90 @@
+<!-- views/playerSessionsList.ejs -->
+<% const playerSessions = sessions.filter(session => session.creator === player.email); %>
+
+<% if (playerSessions && playerSessions.length > 0) { %>
+    <h2 class="text-xl font-semibold mb-4">Sessions Created by <%= "Mr. " + player.firstName + " " + player.lastName %></h2>
+    <ul class="space-y-4">
+        <% playerSessions.forEach(session => { %>
+            <li class="border p-4 rounded shadow-md">
+                <h3 class="text-lg font-semibold mb-2">Session ID: <%= session.id %></h3>
+                <p><strong>Sport ID:</strong> <%= session.sportId %></p>
+                <p><strong>Date:</strong> <%= session.date %></p>
+                <p><strong>Time:</strong> <%= session.time %></p>
+                <p><strong>Venue:</strong> <%= session.venue %></p>
+                <p><strong>Team-Size:</strong> <%= session.teamSize %></p>
+                <a href="#!" onclick="deleteSession('<%= session.id %>')" class="text-red-600 hover:underline">Delete Session</a>
+            </li>
+        <% }); %>
+    </ul>
+<% } else { %>
+    <p class="text-gray-500">No sessions created by you, create to see.</p>
+<% } %>
+
+<!-- sessions joined by the logged-in player -->
+<h2 class="text-2xl font-semibold mb-4">Sessions Joined by <%= "Mr. " + player.firstName + " " + player.lastName %></h2>
+<% const filteredJoinedSessions = joinedSessions.filter(session => session.playerId === player.id); %>
+<% if (filteredJoinedSessions && filteredJoinedSessions.length > 0) { %>
+    <ul class="space-y-4">
+        <% filteredJoinedSessions.forEach(session => { %>
+            <li class="border p-4 rounded shadow-md">
+                <h3 class="text-lg font-semibold mb-2">Join-ID: <%= session.id %></h3>
+                <p><strong>Session ID:</strong> <%= session.sessionId %></p>
+                <% const sportDetails = sports.find(sport => sport.id === session.playerId); %>
+                <p><strong>Sport ID:</strong> <%= sportDetails ? sportDetails.id : 'N/A' %></p>
+
+                <% const sessionDetails = sessions.find(s => s.id === session.sessionId); %>
+                <p><strong>Date:</strong> <%= sessionDetails ? sessionDetails.date : 'N/A' %></p>
+                <p><strong>Time:</strong> <%= sessionDetails ? sessionDetails.time : 'N/A' %></p>
+                <p><strong>Team-Size:</strong> <%= sessionDetails ? sessionDetails.teamSize : 'N/A' %></p>
+            </li>
+        <% }); %>
+    </ul>
+<% } else { %>
+    <p class="text-gray-500">No sessions joined by you, join some sessions!</p>
+<% } %>
+
+
+
+<!-- all sports and sessions -->
+<h2 class="text-2xl font-semibold mb-4">All Sports-Sessions</h2>
+<% if (sports.length > 0) { %>
+    <ul class="space-y-4">
+        <% sports.forEach(sport => { %>
+            <li class="border p-4 rounded shadow-md">
+                <h3 class="text-lg font-semibold mb-2">Sport Name: <%= sport.name %></h3>
+                <p><strong>Sport ID:</strong> <%= sport.id %></p>
+                <p><strong>Admin ID:</strong> <%= sport.adminId %></p>
+
+                <!-- Fetch and display sessions for this sport -->
+                <p><strong>Available Sessions : </strong></p>
+                <% const sportSessions = sessions.filter(session => session.sportId === sport.id); %>
+                <% if (sportSessions && sportSessions.length > 0) { %>
+                    <ul class="list-disc pl-4">
+                        <% sportSessions.forEach(session => { %>
+                            <li>
+                                <strong>Session ID :</strong> <%= session.id %><br>
+                                <strong>Creator :</strong> <%= session.creator %><br>
+                                <strong>Date :</strong> <%= session.date %><br>
+                                <strong>Time :</strong> <%= session.time %><br>
+                                <strong>Venue :</strong> <%= session.venue %><br>
+                                <strong>Team-Size :</strong> <%= session.teamSize %><br>
+                            </li>
+                            <form action="/join" method="post" style="display: inline;">
+                                <input type="hidden" name="playerId" value="<%= player.id %>">
+                                <input type="hidden" name="sessionId" value="<%= session.id %>">
+                                <input type="hidden" name="teamSize" value="<%= session.teamSize %>">
+                                <button type="submit" class="text-green-600 hover:underline">To-Join</button>
+                            </form>
+                        <% }); %>
+                    </ul>
+                <% } else { %>
+                    <p class="text-gray-500">No sessions available for this sport.</p>
+                <% } %>
+
+            </li>
+        <% }); %>
+    </ul>
+<% } else { %>
+    <p class="text-gray-500">No sports available.</p>
+<% } %>
+

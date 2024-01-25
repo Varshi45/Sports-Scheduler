@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('public/loginpagebg.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .login-option {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            background-color: transparent;
+            color: #333;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .login-option.active {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        .login-form {
+            display: none;
+        }
+
+        .centered {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .icon {
+            margin-right: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 4px;
+            padding: 10px;
+        }
+
+        .input-group i {
+            margin-right: 10px;
+            color: #555;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="email"],
+        .input-group input[type="password"] {
+            flex-grow: 1;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            background-color: transparent;
+        }
+
+        .input-group input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .input-group input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .links-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .links-container a {
+            color: #333;
+            text-decoration: none;
+            font-size: smaller;
+            transition: color 0.3s;
+        }
+
+        .links-container a:hover {
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <div class="centered">
+        <div class="container">
+            <h1>Login</h1>
+            <div class="login-options">
+                <div class="login-option active" id="player-option">
+                    <i class="fas fa-user icon"></i>
+                    Player Login
+                </div>
+                <div class="login-option" id="admin-option">
+                    <i class="fas fa-user-shield icon"></i>
+                    Admin Login
+                </div>
+            </div>
+            <form method="post" action="/sectionPlayer" class="login-form" id="player-form">
+                <div class="input-group">
+                    <i class="fas fa-envelope icon"></i>
+                    <input type="email" id="player-email" name="email" placeholder="Email">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock icon"></i>
+                    <input type="password" id="player-password" name="password" placeholder="Password">
+                </div>
+                <input type="submit" value="Submit">
+            </form>
+            <form method="post" action="/sectionAdmin" class="login-form" id="admin-form">
+                <div class="input-group">
+                    <i class="fas fa-envelope icon"></i>
+                    <input type="email" id="admin-email" name="email" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock icon"></i>
+                    <input type="password" id="admin-password" name="password" placeholder="Password" required>
+                </div>
+                <input type="submit" value="Submit">
+            </form>
+            <div class="links-container">
+                <a href="signup">Create Account</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const playerOption = document.getElementById("player-option");
+        const adminOption = document.getElementById("admin-option");
+        const playerForm = document.getElementById("player-form");
+        const adminForm = document.getElementById("admin-form");
+
+        playerForm.style.display = "block";
+        adminForm.style.display = "none";
+
+        playerOption.addEventListener("click", () => {
+            playerForm.style.display = "block";
+            adminForm.style.display = "none";
+            playerOption.classList.add("active");
+            adminOption.classList.remove("active");
+        });
+
+        adminOption.addEventListener("click", () => {
+            playerForm.style.display = "none";
+            adminForm.style.display = "block";
+            playerOption.classList.remove("active");
+            adminOption.classList.add("active");
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!-- playerDashboard.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Player Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./css/styles.css">
+    <script>
+        function deleteSession(id) {
+            fetch(`/delete-session/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then((res) => {
+                if (res.ok) {
+                    window.location.reload();
+                }
+            })
+            .catch((err) => console.error(err));
+        }
+
+    </script>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-blue-500 text-white py-4 fixed w-full top-0 z-20">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <div>
+                    <p>Welcome..! <%= player.firstName + " " + player.lastName %></p>
+                    <p>Mail: <%= player.email %></p>
+                </div>
+            </div>
+            <div class="text-center flex-grow">
+                <h1 class="text-2xl font-semibold">Welcome to Player Dashboard</h1>
+            </div>
+            <ul class="flex items-center space-x-4">
+                <li><a href="/signout" class="hover:text-red-500">Sign Out</a></li>
+                <li><a href="#toggleFormSession" class="hover:text-green-500">Add Session</a></li>
+            </ul>
+        </div>
+    </header>
+    <div class="w-2/2 overflow-y-auto h-full">
+        <main class="container mx-auto mt-20 pl-4 pr-8">
+            <section id="manage-sports-section" class="h-full">
+                <h2 class="text-2xl font-semibold mb-4">Your sessions</h2>
+                <%- include('playerSportsList.ejs', { sports: sports,sessions, player,joinedSessions }) %>
+            </section>
+
+            <button id="toggleFormSession" class="bg-blue-500 text-white p-2 rounded mt-4">Add Session</button>
+            <section>
+                <form id="createSessionForm" action="/create-session" style="display: none;" method="post" class="h-full mx-auto bg-white p-8 mt-4 rounded shadow-md slide-down">
+                    <div class="mb-4">
+                        <label for="sportId">Sport:</label>
+                        <select id="sportId" name="sportId" required>
+                        <% sports.forEach(sport => { %>
+                            <option value="<%= sport.id %>"><%= sport.name %></option>
+                        <% }); %>
+                        </select>
+                    </div>
+                    <input type="hidden" name="creator" value="<%= player.email %>">
+
+                    <div class="mb-4">
+                        <label for="date" class="block text-gray-700 text-sm font-bold mb-2">Date:</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="time" class="block text-gray-700 text-sm font-bold mb-2">Time:</label>
+                        <input type="time" id="time" name="time" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="venue" class="block text-gray-700 text-sm font-bold mb-2">Venue:</label>
+                        <input type="text" id="venue" name="venue" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="teamSize" class="block text-gray-700 text-sm font-bold mb-2">Team-Size :</label>
+                        <input type="text" name="teamSize" required>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <button type="submit" class="w-full bg-blue-500 text-white p-3 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">Create Session</button>
+                    </div>
+                    
+                </form>
+            </section>
+            
+        </main>
+    </div>
+    <footer class="bg-gray-800 text-white py-4 mt-8 z-20">
+        <div class="container mx-auto flex items-center justify-center">
+            <p>&copy; 2024 player Dashboard</p>
+        </div>
+    </footer>
+
+    <script>
+        const toggleFormSessionButton = document.getElementById('toggleFormSession');
+        const createSessionForm = document.getElementById('createSessionForm');
+
+        toggleFormSessionButton.addEventListener('click', function () {
+        createSessionForm.style.display = createSessionForm.style.display === 'block' ? 'none' : 'block';
+        createSessionForm.classList.toggle('slide-down');
+
+        // Smooth scroll to the form
+        if (createSessionForm.style.display === 'block') {
+            createSessionForm.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+    </script>
+</body>
+</html>

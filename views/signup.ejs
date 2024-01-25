@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-Up</title>
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('public/loginpagebg.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 400px;
+            max-height: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .login-option {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            background-color: transparent;
+            color: #333;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .login-option.active {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        .login-form {
+            display: block;
+        }
+
+        .centered {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .icon {
+            margin-right: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 4px;
+            padding: 10px;
+        }
+
+        .input-group i {
+            margin-right: 10px;
+            color: #555;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="email"],
+        .input-group input[type="password"] {
+            flex-grow: 1;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            background-color: transparent;
+        }
+
+        .input-group input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .input-group input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .links-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .links-container a {
+            color: #333;
+            text-decoration: none;
+            font-size: smaller;
+            transition: color 0.3s;
+        }
+
+        .links-container a:hover {
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <div class="centered">
+        <div class="container">
+            <h1>Sign-Up</h1>
+            <div class="login-options">
+                <div class="login-option active" id="player-option">
+                    <i class="fas fa-user icon"></i>
+                    Player Sign-Up
+                </div>
+            </div>
+            <form method="post" action="/create-player" class="login-form" id="player-form">
+                <div class="input-group">
+                    <i class="fas fa-user icon"></i>
+                    <input type="text" id="firstNamePlayer" name="firstName" placeholder="First Name" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-user icon"></i>
+                    <input type="text" id="lastNameplayer" name="lastName" placeholder="Last Name">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope icon"></i>
+                    <input type="email" id="player-email" name="email" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock icon"></i>
+                    <input type="password" id="player-password" name="password" placeholder="Password" required>
+                </div>
+                <input type="submit" value="Submit">
+            </form>
+
+            <div class="links-container">
+                <p><a href="login">Already have an account?</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
