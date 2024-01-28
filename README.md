@@ -74,3 +74,10 @@ Once the application is running, you can access it through a web browser or use 
 
 - `GET /sessions/:sportId/:sessionId`: Get details of a specific session.
 - `GET /players/:id`: Get details of a specific player.
+
+
+### Screenshots
+
+### Admin Dashboard
+![Admin Dashboard](screenshots/Admindashboard.png)
+
