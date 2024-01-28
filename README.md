@@ -16,7 +16,7 @@ This is a Sports Management System built using Node.js, Express.js, Sequelize OR
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your/repository.git
+   git clone https://github.com/Varshi45/Sports-Scheduler
    ```
 
 2. Install dependencies:
