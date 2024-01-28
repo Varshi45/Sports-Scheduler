@@ -16,7 +16,7 @@ This is a Sports Management System built using Node.js, Express.js, Sequelize OR
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your/repository.git
+   git clone https://github.com/Varshi45/Sports-Scheduler
    ```
 
 2. Install dependencies:
@@ -74,3 +74,24 @@ Once the application is running, you can access it through a web browser or use 
 
 - `GET /sessions/:sportId/:sessionId`: Get details of a specific session.
 - `GET /players/:id`: Get details of a specific player.
+
+
+### Screenshots
+
+### Home Page
+![Home Page](screenshots/Home-Page.png)
+
+### Login and Signup
+![Login/Signup Interface](screenshots/Login-Signup.png)
+
+### Admin Dashboard
+![Admin Dashboard](screenshots/Admindashboard.png)
+
+### Player Dashboard
+![Player Dashboard](screenshots/Playerdashboard.png)
+
+### Create Sport
+![Create Sport](screenshots/Create-Sport.png)
+
+### Create Session
+![Create Session](screenshots/Create-Session.png)
