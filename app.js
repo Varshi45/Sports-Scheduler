@@ -27,6 +27,8 @@ app.use(csrf({ cookie: true }));
 app.use(
   session({
     secret: "my-secret-key-127287123873",
+    resave: false, // Set to true if you want to force the session to be saved back to the session store, even if the session was never modified during the request.
+    saveUninitialized: false,
     cookie: {
       maxAge: 24 * 60 * 60 * 1000, //24hours
     },
