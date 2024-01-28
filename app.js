@@ -193,20 +193,20 @@ app.get(
   "/player",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    if (request.accepts("html")) {
-      const player = request.user;
-      const sports = await Sport.getAll();
-      const sessions = [];
-      const joinedSessions = await Join.findAll({
-        where: { playerId: player.id },
-      });
+    const player = request.user;
+    const sports = await Sport.getAll();
+    const sessions = [];
+    const joinedSessions = await Join.findAll({
+      where: { playerId: player.id },
+    });
 
-      for (const sport of sports) {
-        const sportSessions = await Session.findAll({
-          where: { sportId: sport.id },
-        });
-        sessions.push(...sportSessions);
-      }
+    for (const sport of sports) {
+      const sportSessions = await Session.findAll({
+        where: { sportId: sport.id },
+      });
+      sessions.push(...sportSessions);
+    }
+    if (request.accepts("html")) {
       response.render("playerDashboard", {
         player,
         sports,
@@ -215,7 +215,13 @@ app.get(
         csrfToken: request.csrfToken(),
       });
     } else {
-      response.json("/payer route");
+      response.json({
+        player,
+        sports,
+        sessions,
+        joinedSessions,
+        csrfToken: request.csrfToken(),
+      });
     }
   }
 );
@@ -516,6 +522,8 @@ app.get("/sessions/:sportId/:sessionId", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log(`Server is running at http://localhost:${3000}`);
-});
+// app.listen(3000, () => {
+//   console.log(`Server is running at http://localhost:${3000}`);
+// });
+
+module.exports = app;
