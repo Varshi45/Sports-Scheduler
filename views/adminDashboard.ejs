@@ -17,6 +17,23 @@
             background-size: cover;
             background-repeat: no-repeat;
         }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header > div {
+            margin-left: 20px; /* Adjust margin as needed */
+        }
+
+        header .text-center {
+            flex-grow: 1;
+        }
+
+        header ul {
+            margin-right: 20px; /* Adjust margin as needed */
+        }
     </style>
     <script>
         function deleteSession(id) {
@@ -39,24 +56,23 @@
     </script>
 </head>
 <body class="bg-gray-100">
-    <header class="bg-blue-500 text-white py-4 fixed w-full top-0 z-20">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center">
-                <div>
-                    <p>Welcome..! <%= admin.firstName + " " + admin.lastName %></p>
-                    <p>Mail: <%= admin.email %></p>
-                </div>
+    <header class="bg-blue-500 text-white py-4 fixed w-full top-0 z-20 flex justify-between items-center">
+        <div class="flex items-center">
+            <div>
+                <p>Welcome..! <%= admin.firstName + " " + admin.lastName %></p>
+                <p>Mail: <%= admin.email %></p>
             </div>
-            <div class="text-center flex-grow">
-                <h1 class="text-2xl font-semibold">Welcome to Admin Dashboard</h1>
-            </div>
-            <ul class="flex items-center space-x-4">
-                <li><a href="/signout" class="hover:text-red-500">Sign Out</a></li>
-                <li><a href="#toggleFormSession" class="hover:text-green-500">Add Session/Sports</a></li>
-                <li><a href="#reports" class="hover:text-green-500">Reports</a></li>
-            </ul>            
         </div>
+        <div class="text-center flex-grow">
+            <h1 class="text-2xl font-semibold">Admin Dashboard</h1>
+        </div>
+        <ul class="flex items-center space-x-4">
+            <li><a href="/signout" class="hover:text-red-500">Sign Out</a></li>
+            <li><a href="#toggleFormSession" class="hover:text-green-500">Add Session/Sports</a></li>
+            <li><a href="#reports" class="hover:text-green-500">Reports</a></li>
+        </ul>
     </header>
+    
     <div class="w-2/2 overflow-y-auto h-full">
         <main class="container mx-auto mt-20 pl-4 pr-8">
             <section id="manage-sports-section" class="h-full">
