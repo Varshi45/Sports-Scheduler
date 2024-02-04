@@ -5,7 +5,7 @@
     <h2 class="text-xl font-semibold mb-4">Sessions Created by <%= "Mr. " + player.firstName + " " + player.lastName %></h2>
     <ul class="space-y-4">
         <% playerSessions.forEach(session => { %>
-            <li class="border p-4 rounded shadow-md">
+            <li class="border p-4 rounded shadow-md hover:border-blue-500 border-light-emission">
                 <h3 class="text-lg font-semibold mb-2">Session ID: <%= session.id %></h3>
                 <p><strong>Sport ID:</strong> <%= session.sportId %></p>
                 <p><strong>Date:</strong> <%= session.date %></p>
@@ -26,7 +26,7 @@
 <% if (filteredJoinedSessions && filteredJoinedSessions.length > 0) { %>
     <ul class="space-y-4">
         <% filteredJoinedSessions.forEach(session => { %>
-            <li class="border p-4 rounded shadow-md">
+            <li class="border p-4 rounded shadow-md hover:border-blue-500 border-light-emission">
                 <h3 class="text-lg font-semibold mb-2">Join-ID: <%= session.id %></h3>
                 <p><strong>Session ID:</strong> <%= session.sessionId %></p>
                 <% const sportDetails = sports.find(sport => sport.id === session.playerId); %>
@@ -50,7 +50,7 @@
 <% if (sports.length > 0) { %>
     <ul class="space-y-4">
         <% sports.forEach(sport => { %>
-            <li class="border p-4 rounded shadow-md">
+            <li class="border p-4 rounded shadow-md hover:border-blue-500 border-light-emission">
                 <h3 class="text-lg font-semibold mb-2">Sport Name: <%= sport.name %></h3>
                 <p><strong>Sport ID:</strong> <%= sport.id %></p>
                 <p><strong>Admin ID:</strong> <%= sport.adminId %></p>
@@ -61,7 +61,7 @@
                 <% if (sportSessions && sportSessions.length > 0) { %>
                     <ul class="list-disc pl-4">
                         <% sportSessions.forEach(session => { %>
-                            <li>
+                            <li class="border p-4 rounded shadow-md hover:border-blue-500 border-light-emission">
                                 <strong>Session ID :</strong> <%= session.id %><br>
                                 <strong>Creator :</strong> <%= session.creator %><br>
                                 <strong>Date :</strong> <%= session.date %><br>
@@ -74,7 +74,7 @@
                                 <input type="hidden" name="playerId" value="<%= player.id %>">
                                 <input type="hidden" name="sessionId" value="<%= session.id %>">
                                 <input type="hidden" name="teamSize" value="<%= session.teamSize %>">
-                                <button type="submit" class="text-blue-600 hover:underline">To-Join</button>
+                                <button type="submit" class="text-blue-600 hover:text-green-500 hover:underline">To-Join</button>
                             </form>
                         <% }); %>
                     </ul>

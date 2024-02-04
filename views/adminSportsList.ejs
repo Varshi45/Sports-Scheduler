@@ -3,18 +3,20 @@
 <% if (sports.length > 0) { %>
     <ul class="space-y-4">
         <% sports.forEach(sport => { %>
-            <li class="border p-4 rounded shadow-md">
+            <li class="border p-4 rounded shadow-md border-light-emission">
+                <!-- Sport details -->
                 <h3 class="text-lg font-semibold mb-2">Sport Name: <%= sport.name %></h3>
                 <p><strong>Sport ID:</strong> <%= sport.id %></p>
                 <p><strong>Admin ID:</strong> <%= sport.adminId %></p>
 
-                <!-- Fetch and display sessions for this sport -->
+                <!-- Sessions for this sport -->
                 <p><strong>Available Sessions : </strong></p>
                 <% const sportSessions = sessions.filter(session => session.sportId === sport.id && session.creator === admin.email); %>
                 <% if (sportSessions && sportSessions.length > 0) { %>
                     <ul class="list-disc pl-4">
                         <% sportSessions.forEach(session => { %>
-                            <li>
+                            <li class="border p-2 rounded shadow-md border-light-emission">
+                                <!-- Session details -->
                                 <strong>Session ID:</strong> <%= session.id %><br>
                                 <strong>Creator:</strong> <%= session.creator %><br>
                                 <strong>Date:</strong> <%= session.date %><br>
@@ -28,7 +30,6 @@
                 <% } else { %>
                     <p class="text-gray-500">No sessions available for this sport.</p>
                 <% } %>
-
             </li>
         <% }); %>
     </ul>
@@ -36,21 +37,21 @@
     <p class="text-gray-500">No sports available.</p>
 <% } %>
 
-
+<!-- Player sessions -->
 <h2 class="text-2xl font-semibold mb-4">Sessions Joined by Players</h2>
 
 <% if (joinedSessions && joinedSessions.length > 0) { %>
     <ul class="space-y-4">
         <% joinedSessions.forEach(session => { %>
-            <li class="border p-4 rounded shadow-md">
+            <li class="border p-4 rounded shadow-md border-light-emission">
+                <!-- Joined session details -->
                 <h3 class="text-lg font-semibold mb-2">Join-ID: <%= session.id %></h3>
                 <p><strong>Session ID:</strong> <%= session.sessionId %></p>
                 <% const playerDetails = allPlayers.find(player => player.id === session.playerId); %>
                 <p><strong>Player :</strong> <%= playerDetails ? playerDetails.firstName + " " + playerDetails.lastName : 'N/A' %></p>
-
-                </li>
+            </li>
         <% }); %>
     </ul>
 <% } else { %>
-    <p class="text-gray-500">No sessions joined by you, join some sessions!</p>
+    <p class="text-gray-500">No sessions joined by players.</p>
 <% } %>

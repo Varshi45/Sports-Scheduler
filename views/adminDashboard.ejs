@@ -34,6 +34,15 @@
         header ul {
             margin-right: 20px; /* Adjust margin as needed */
         }
+        .border-light-emission {
+            border: 1px solid transparent;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Change the color to white shades */
+            transition: box-shadow 0.3s ease; /* Add a smooth transition effect */
+        }
+
+        .border-light-emission:hover {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.7); /* Adjust the color and opacity for the hover effect */
+        }
     </style>
     <script>
         function deleteSession(id) {
@@ -147,10 +156,10 @@
             </div>
     
             <div>
-                <p class="mb-2"><strong>Total Sessions Played:</strong> <%= allSessions.length %></p>
-    
-                <h3 class="mb-2"><strong>Relative Popularity of Sports :</strong> </h3>
-                <ul>
+                <p class="mb-2 text-lg font-semibold"><strong>Total Sessions Played:</strong> <%= allSessions.length %></p>
+            
+                <h3 class="mb-2 text-lg font-semibold"><strong>Relative Popularity of Sports :</strong> </h3>
+                <ul class="text-lg font-medium">
                     <% 
                     const sportsMap = {};
                     allSessions.forEach(session => {
@@ -171,21 +180,33 @@
                     const sortedSports = Object.keys(sportsMap).sort((a, b) => sportsMap[b] - sportsMap[a]);
                 
                     sortedSports.forEach(sportName => { %>
-                        <li><%= sportName %> : <%= sportsMap[sportName] %> session(s)</li>
+                        <li class="hover:bg-gray-100 transition duration-300"><span class="text-violet-900"><%= sportName %></span> : <%= sportsMap[sportName] %> session(s)</li>
                     <% }); %>
                 </ul>
                 
             </div>
+            
+            
         </main>
     </div>
     
     <footer class="bg-gray-800 text-white py-4 mt-8 z-20">
-        <div class="container mx-auto flex items-center justify-center">
+        <div class="container mx-auto flex items-center justify-between">
             <p>&copy; 2024 Admin Dashboard</p>
+            <button id="scrollToTopBtn" class="bg-black-500 text-white px-4 py-2 rounded hover:bg-gray-700 focus:outline-none focus:shadow-outline-blue ml-auto">Scroll to Top</button>
         </div>
     </footer>
 
-    <script>    
+    <script>
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        scrollToTopBtn.addEventListener('click', scrollToTop);
         // JavaScript to toggle the form visibility with slide-down animation
         const toggleFormButton = document.getElementById('toggleForm');
         const createSportForm = document.getElementById('createSportForm');

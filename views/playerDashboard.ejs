@@ -17,6 +17,16 @@
             background-size: cover;
             background-repeat: no-repeat;
         }
+        .border-light-emission {
+            border: 1px solid transparent;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Change the color to white shades */
+            transition: box-shadow 0.3s ease; /* Add a smooth transition effect */
+        }
+
+        .border-light-emission:hover {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.7); /* Adjust the color and opacity for the hover effect */
+        }
+
     </style>
     <script>
         function deleteSession(id) {
@@ -105,12 +115,23 @@
         </main>
     </div>
     <footer class="bg-gray-800 text-white py-4 mt-8 z-20">
-        <div class="container mx-auto flex items-center justify-center">
-            <p>&copy; 2024 player Dashboard</p>
+        <div class="container mx-auto flex items-center justify-between">
+            <p>&copy; 2024 Player Dashboard</p>
+            <button id="scrollToTopBtn" class="bg-black-500 text-white px-4 py-2 rounded hover:bg-gray-700 focus:outline-none focus:shadow-outline-blue ml-auto">Scroll to Top</button>
         </div>
     </footer>
 
     <script>
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        scrollToTopBtn.addEventListener('click', scrollToTop);
+
         const toggleFormSessionButton = document.getElementById('toggleFormSession');
         const createSessionForm = document.getElementById('createSessionForm');
 
